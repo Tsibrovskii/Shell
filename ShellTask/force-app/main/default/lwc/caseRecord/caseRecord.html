@@ -1,0 +1,31 @@
+<template>
+  <div class="slds-grid slds-gutters">
+    <div class="slds-col slds-size--1-of-5">
+      <div class="slds-p-left--small slds-p-top--small slds-p-bottom--small slds-text-link">
+        <a onclick={viewCase}>
+          {record.CaseNumber}
+        </a>  
+      </div>
+    </div>
+    <div class="slds-col slds-size--1-of-5">
+      <div class="slds-p-left--small slds-p-top--small slds-p-bottom--small">
+        {record.Status}
+      </div>
+    </div>
+    <div class="slds-col slds-size--1-of-5">
+      <div class="slds-p-left--small slds-p-top--small slds-p-bottom--small">
+        {record.CreatedDate}
+      </div>
+    </div>
+    <div class="slds-col slds-size--1-of-5">
+      <div class="slds-p-left--small slds-p-top--small slds-p-bottom--small">
+        {record.Skills__c}
+      </div>
+    </div>
+    <div class="slds-col slds-size--1-of-5">
+      <div class="slds-p-left--small slds-p-top--small slds-p-bottom--small">
+        {record.Priority}
+      </div>
+    </div>
+  </div>
+</template>

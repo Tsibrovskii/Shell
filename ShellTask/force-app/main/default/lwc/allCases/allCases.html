@@ -1,3 +1,26 @@
 <template>
-    hello
+  <div class="slds-card">
+    <div class="slds-theme_shade">
+      <div class="slds-grid slds-gutters">
+        <div class="slds-col slds-size--1-of-5">
+          <div class="slds-p-left--small slds-p-top--small slds-p-bottom--small">Case Number</div>
+        </div>
+        <div class="slds-col slds-size--1-of-5">
+          <div class="slds-p-left--small slds-p-top--small slds-p-bottom--small">Status</div>
+        </div>
+        <div class="slds-col slds-size--1-of-5">
+          <div class="slds-p-left--small slds-p-top--small slds-p-bottom--small">Date/Time Opened</div>
+        </div>
+        <div class="slds-col slds-size--1-of-5">
+          <div class="slds-p-left--small slds-p-top--small slds-p-bottom--small">Skills</div>
+        </div>
+        <div class="slds-col slds-size--1-of-5">
+          <div class="slds-p-left--small slds-p-top--small slds-p-bottom--small">Priority</div>
+        </div>
+      </div>
+    </div>
+    <template for:each={records} for:item="record">
+      <c-case-record key={record.Id} record={record}></c-case-record>
+    </template>
+  </div>
 </template>
