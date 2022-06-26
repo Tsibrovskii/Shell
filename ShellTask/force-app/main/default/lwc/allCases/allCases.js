@@ -3,32 +3,48 @@ import getCases from '@salesforce/apex/CaseController.getCases'; '@salesforce/ap
 
 export default class AllCases extends LightningElement {
   @track
-  records;
-  initialRecords;
+  records = [];
+
+  initialRecords = [];
   typingTimer;
   filter;
 
   @wire(getCases)
   allCases({error, data}) {
     if (data) {
-      this.initialRecords = data;
-      this.processRecords();
+      this.initialProcessRecords(data);
     } else if (error) {
       this.error = error;
     }
   }
 
-  processRecords = () => {
-    this.records = this.initialRecords.map(record => {
+  initialProcessRecords = (data) => {
+    this.initialRecords = data.map(record => {
       return {...record, CreatedDate: record.CreatedDate.slice(0, 10)}
     });
+    this.records = this.initialRecords;
   }
 
   filterRecords = (event) => {
-    this.filter = event.target.value;
+    this.filter = event.target.value && event.target.value.toLowerCase();
     clearTimeout(this.typingTimer);
     this.typingTimer = setTimeout(() => {
-      console.log(this.filter);
+      this.processFilter();
     }, 300);
+  }
+
+  processFilter = () => {
+    if (!this.filter) {
+      this.records = this.initialRecords;
+      return;
+    }
+
+    const temp = this.initialRecords.filter(record => {
+      const value = Object.values(record).find(val => {
+        return val.toLowerCase().includes(this.filter)
+      });
+      return !!value;
+    });
+    this.records = temp;
   }
 }
