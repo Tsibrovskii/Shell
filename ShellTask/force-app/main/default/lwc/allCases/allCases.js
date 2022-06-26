@@ -8,6 +8,8 @@ export default class AllCases extends LightningElement {
   initialRecords = [];
   typingTimer;
   filter;
+  sortedColumn;
+  sortedDirection = "asc";
 
   @wire(getCases)
   allCases({error, data}) {
@@ -39,12 +41,31 @@ export default class AllCases extends LightningElement {
       return;
     }
 
-    const temp = this.initialRecords.filter(record => {
+    this.records = this.initialRecords.filter(record => {
       const value = Object.values(record).find(val => {
         return val.toLowerCase().includes(this.filter)
       });
       return !!value;
     });
-    this.records = temp;
+  }
+
+  sortRecords = (event) => {
+    let colName = event.target.title;
+    if (this.sortedColumn === colName) {
+      this.sortedDirection = (this.sortedDirection === "asc" ? "desc" : "asc");
+    } else {
+      this.sortedDirection = "asc";
+    }
+
+    let isReverse = this.sortedDirection === "asc" ? 1 : -1;
+
+    this.sortedColumn = colName;
+
+    this.records = [];
+    this.records = this.initialRecords.sort((a, b) => {
+      a = a[colName] ? a[colName].toLowerCase() : "";
+      b = b[colName] ? b[colName].toLowerCase() : "";
+      return a > b ? 1 * isReverse : -1 * isReverse;
+    });
   }
 }
