@@ -1,5 +1,7 @@
-import { LightningElement, wire, track } from 'lwc';
-import getCases from '@salesforce/apex/CaseController.getCases'; '@salesforce/apex/CaseController.getAccounts';
+import {LightningElement, wire, track} from 'lwc';
+import getCases from '@salesforce/apex/CaseController.getCases';
+import {loadScript} from 'lightning/platformResourceLoader';
+import JSPDF from '@salesforce/resourceUrl/jspdf';
 
 export default class AllCases extends LightningElement {
   @track
@@ -11,6 +13,49 @@ export default class AllCases extends LightningElement {
   sortedColumn;
   sortedDirection = "asc";
 
+  headers = [
+    {
+      id: "CaseNumber",
+      name: "CaseNumber",
+      prompt: "Case Number",
+      width: 50,
+      align: "center",
+      padding: 0
+    },
+    {
+      id: "Status",
+      name: "Status",
+      prompt: "Status",
+      width: 50,
+      align: "center",
+      padding: 0
+    },
+    {
+      id: "CreatedDate",
+      name: "CreatedDate",
+      prompt: "Date Opened",
+      width: 50,
+      align: "center",
+      padding: 0
+    },
+    {
+      id: "Skills__c",
+      name: "Skills__c",
+      prompt: "Skills",
+      width: 50,
+      align: "center",
+      padding: 0
+    },
+    {
+      id: "Priority",
+      name: "Priority",
+      prompt: "Priority",
+      width: 50,
+      align: "center",
+      padding: 0
+    }
+  ];
+
   @wire(getCases)
   allCases({error, data}) {
     if (data) {
@@ -18,6 +63,19 @@ export default class AllCases extends LightningElement {
     } else if (error) {
       this.error = error;
     }
+  }
+
+  renderedCallback() {
+    Promise.all([loadScript(this, JSPDF)]);
+  }
+
+  generatePdf = () => {
+    const {jsPDF} = window.jspdf;
+    const doc = new jsPDF();
+
+    doc.text("All Cases", 92, 10);
+    doc.table(10, 20, this.records, this.headers, {autosize:true});
+    doc.save("Cases.pdf");
   }
 
   initialProcessRecords = (data) => {

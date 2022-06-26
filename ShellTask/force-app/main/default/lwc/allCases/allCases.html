@@ -29,5 +29,8 @@
     <template for:each={records} for:item="record">
       <c-case-record key={record.Id} record={record}></c-case-record>
     </template>
+    <button class="slds-button slds-button_brand slds-align--absolute-center slds-m-bottom--small" onclick={generatePdf}>
+      Generate PDF
+    </button>
   </div>
 </template>
