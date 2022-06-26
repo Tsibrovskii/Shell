@@ -119,8 +119,7 @@ export default class AllCases extends LightningElement {
 
     this.sortedColumn = colName;
 
-    this.records = [];
-    this.records = this.initialRecords.sort((a, b) => {
+    this.records.sort((a, b) => {
       a = a[colName] ? a[colName].toLowerCase() : "";
       b = b[colName] ? b[colName].toLowerCase() : "";
       return a > b ? 1 * isReverse : -1 * isReverse;
