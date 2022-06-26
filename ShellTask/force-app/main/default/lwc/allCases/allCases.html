@@ -1,5 +1,9 @@
 <template>
   <div class="slds-card">
+    <div class="filterWidth slds-p-left--small">
+        <lightning-input type="search" class="slds-m-bottom--small" label="Filter" onchange={filterRecords} placeholder="Start typing here">
+        </lightning-input>
+    </div>
     <div class="slds-theme_shade">
       <div class="slds-grid slds-gutters">
         <div class="slds-col slds-size--1-of-5">
@@ -9,7 +13,7 @@
           <div class="slds-p-left--small slds-p-top--small slds-p-bottom--small">Status</div>
         </div>
         <div class="slds-col slds-size--1-of-5">
-          <div class="slds-p-left--small slds-p-top--small slds-p-bottom--small">Date/Time Opened</div>
+          <div class="slds-p-left--small slds-p-top--small slds-p-bottom--small">Date Opened</div>
         </div>
         <div class="slds-col slds-size--1-of-5">
           <div class="slds-p-left--small slds-p-top--small slds-p-bottom--small">Skills</div>
