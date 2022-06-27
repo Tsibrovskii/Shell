@@ -12,6 +12,7 @@ export default class AllCases extends LightningElement {
   filter;
   sortedColumn;
   sortedDirection = "asc";
+  isLoaded = false;
 
   headers = [
     {
@@ -71,6 +72,7 @@ export default class AllCases extends LightningElement {
     } else if (error) {
       this.error = error;
     }
+    this.isLoaded = true;
   }
 
   renderedCallback() {
