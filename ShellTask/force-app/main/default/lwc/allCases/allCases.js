@@ -18,7 +18,15 @@ export default class AllCases extends LightningElement {
       id: "CaseNumber",
       name: "CaseNumber",
       prompt: "Case Number",
-      width: 50,
+      width: 42,
+      align: "center",
+      padding: 0
+    },
+    {
+      id: "Owner",
+      name: "Owner",
+      prompt: "Case Owner",
+      width: 42,
       align: "center",
       padding: 0
     },
@@ -26,7 +34,7 @@ export default class AllCases extends LightningElement {
       id: "Status",
       name: "Status",
       prompt: "Status",
-      width: 50,
+      width: 42,
       align: "center",
       padding: 0
     },
@@ -34,7 +42,7 @@ export default class AllCases extends LightningElement {
       id: "CreatedDate",
       name: "CreatedDate",
       prompt: "Date Opened",
-      width: 50,
+      width: 42,
       align: "center",
       padding: 0
     },
@@ -42,7 +50,7 @@ export default class AllCases extends LightningElement {
       id: "Skills__c",
       name: "Skills__c",
       prompt: "Skills",
-      width: 50,
+      width: 42,
       align: "center",
       padding: 0
     },
@@ -50,7 +58,7 @@ export default class AllCases extends LightningElement {
       id: "Priority",
       name: "Priority",
       prompt: "Priority",
-      width: 50,
+      width: 42,
       align: "center",
       padding: 0
     }
@@ -80,7 +88,7 @@ export default class AllCases extends LightningElement {
 
   initialProcessRecords = (data) => {
     this.initialRecords = data.map(record => {
-      return {...record, CreatedDate: record.CreatedDate.slice(0, 10)}
+      return {...record, CreatedDate: record.CreatedDate.slice(0, 10), Owner: record.Owner.Name}
     });
     this.records = this.initialRecords;
   }
