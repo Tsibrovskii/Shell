@@ -8,3 +8,6 @@
 .tableHeight {
   height: 12rem;
 }
+.cursorPointer {
+  cursor: pointer;
+}
