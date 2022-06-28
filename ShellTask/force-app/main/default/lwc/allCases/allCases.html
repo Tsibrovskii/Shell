@@ -7,7 +7,9 @@
         <lightning-input type="search" class="slds-m-bottom--small" label="Filter" onchange={filterRecords} placeholder="Start typing here">
         </lightning-input>
     </div>
-    <lightning-spinner if:false={isLoaded}></lightning-spinner>
+    <div if:false={isLoaded}>
+      <lightning-spinner></lightning-spinner>
+    </div>
     <div class="slds-scrollable_y">
       <div class="slds-theme_shade">
         <div class="slds-grid slds-gutters">
