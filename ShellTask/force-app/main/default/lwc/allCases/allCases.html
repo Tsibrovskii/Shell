@@ -14,22 +14,46 @@
       <div class="slds-theme_shade">
         <div class="slds-grid slds-gutters">
           <div class="slds-col slds-size--1-of-6 cursorPointer">
-            <div class="slds-p-left--small slds-p-top--small slds-p-bottom--small" title="CaseNumber" onclick={sortRecords}>Case Number</div>
+            <div class="slds-p-left--small slds-p-top--small slds-p-bottom--small" title="CaseNumber" onclick={sortRecords}>
+              Case Number
+              <lightning-icon icon-name="utility:arrowup" size="xx-small" class={classCaseNumberAsc} title="CaseNumber"></lightning-icon>
+              <lightning-icon icon-name="utility:arrowdown" size="xx-small" class={classCaseNumberDesc} title="CaseNumber"></lightning-icon>
+            </div>
           </div>
           <div class="slds-col slds-size--1-of-6 cursorPointer">
-            <div class="slds-p-left--small slds-p-top--small slds-p-bottom--small" title="Owner" onclick={sortRecords}>Case Owner</div>
+            <div class="slds-p-left--small slds-p-top--small slds-p-bottom--small" title="Owner" onclick={sortRecords}>
+              Case Owner
+              <lightning-icon icon-name="utility:arrowup" size="xx-small" class={classCaseOwnerAsc} title="Owner"></lightning-icon>
+              <lightning-icon icon-name="utility:arrowdown" size="xx-small" class={classCaseOwnerDesc} title="Owner"></lightning-icon>
+            </div>
           </div>
           <div class="slds-col slds-size--1-of-6 cursorPointer">
-            <div class="slds-p-left--small slds-p-top--small slds-p-bottom--small" title="Status" onclick={sortRecords}>Status</div>
+            <div class="slds-p-left--small slds-p-top--small slds-p-bottom--small" title="Status" onclick={sortRecords}>
+              Status
+              <lightning-icon icon-name="utility:arrowup" size="xx-small" class={classStatusAsc} title="Status"></lightning-icon>
+              <lightning-icon icon-name="utility:arrowdown" size="xx-small" class={classStatusDesc} title="Status"></lightning-icon>
+            </div>
           </div>
           <div class="slds-col slds-size--1-of-6 cursorPointer">
-            <div class="slds-p-left--small slds-p-top--small slds-p-bottom--small" title="CreatedDate" onclick={sortRecords}>Date Opened</div>
+            <div class="slds-p-left--small slds-p-top--small slds-p-bottom--small" title="CreatedDate" onclick={sortRecords}>
+              Date Opened
+              <lightning-icon icon-name="utility:arrowup" size="xx-small" class={classCreatedDateAsc} title="CreatedDate"></lightning-icon>
+              <lightning-icon icon-name="utility:arrowdown" size="xx-small" class={classCreatedDateDesc} title="CreatedDate"></lightning-icon>
+            </div>
           </div>
           <div class="slds-col slds-size--1-of-6 cursorPointer">
-            <div class="slds-p-left--small slds-p-top--small slds-p-bottom--small" title="Skills__c" onclick={sortRecords}>Skills</div>
+            <div class="slds-p-left--small slds-p-top--small slds-p-bottom--small" title="Skills__c" onclick={sortRecords}>
+              Skills
+              <lightning-icon icon-name="utility:arrowup" size="xx-small" class={classSkillsAsc} title="Skills__c"></lightning-icon>
+              <lightning-icon icon-name="utility:arrowdown" size="xx-small" class={classSkillsDesc} title="Skills__c"></lightning-icon>
+            </div>
           </div>
           <div class="slds-col slds-size--1-of-6 cursorPointer">
-            <div class="slds-p-left--small slds-p-top--small slds-p-bottom--small" title="Priority" onclick={sortRecords}>Priority</div>
+            <div class="slds-p-left--small slds-p-top--small slds-p-bottom--small" title="Priority" onclick={sortRecords}>
+              Priority
+              <lightning-icon icon-name="utility:arrowup" size="xx-small" class={classPriorityAsc} title="Priority"></lightning-icon>
+              <lightning-icon icon-name="utility:arrowdown" size="xx-small" class={classPriorityDesc} title="Priority"></lightning-icon>
+            </div>
           </div>
         </div>
       </div>
