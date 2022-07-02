@@ -106,6 +106,7 @@ export default class AllCases extends LightningElement {
   processFilter = () => {
     if (!this.filter && !this.records.length) {
       this.records = this.initialRecords;
+      this.processSort();
       return;
     }
 
