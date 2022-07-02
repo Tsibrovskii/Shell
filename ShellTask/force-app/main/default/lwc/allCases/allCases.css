@@ -8,3 +8,7 @@
 .tableHeight {
   height: 12rem;
 }
+.tableHeaderFixed {
+  position: sticky;
+  top: 0;
+}

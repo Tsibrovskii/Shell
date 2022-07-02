@@ -11,7 +11,9 @@
       <lightning-spinner></lightning-spinner>
     </div>
     <div class="slds-scrollable_y">
-      <c-table-header onsortrecords={sortRecords}></c-table-header>
+      <div class="tableHeaderFixed">
+        <c-table-header onsortrecords={sortRecords}></c-table-header>
+      </div>
       <div class="tableHeight">
         <template for:each={records} for:item="record">
           <c-case-record key={record.Id} record={record}></c-case-record>
