@@ -11,6 +11,8 @@ export default class AllCases extends LightningElement {
   typingTimer;
   filter;
   isLoaded = true;
+  sortColumnName;
+  isReverse;
 
   headers = [
     {
@@ -113,16 +115,21 @@ export default class AllCases extends LightningElement {
       });
       return !!value;
     });
+    this.processSort();
   }
 
   sortRecords = (event) => {
-    const colName = event.detail.sortedColumn;
-    const isReverse = event.detail.sortedDirection === "asc" ? 1 : -1;
+    this.sortColumnName = event.detail.sortedColumn;
+    this.isReverse = event.detail.sortedDirection === "asc" ? 1 : -1;
 
+    this.processSort();
+  }
+
+  processSort = () => {
     this.records.sort((a, b) => {
-      a = a[colName] ? a[colName].toLowerCase() : "";
-      b = b[colName] ? b[colName].toLowerCase() : "";
-      return a > b ? 1 * isReverse : -1 * isReverse;
+      a = a[this.sortColumnName] ? a[this.sortColumnName].toLowerCase() : "";
+      b = b[this.sortColumnName] ? b[this.sortColumnName].toLowerCase() : "";
+      return a > b ? 1 * this.isReverse : -1 * this.isReverse;
     });
   }
 }

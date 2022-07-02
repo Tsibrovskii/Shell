@@ -56,15 +56,15 @@ export default class TableHeader extends LightningElement {
   sortRecords = (event) => {
     let colName = event.target.title;
     if (this.sortedColumn === colName) {
-      this.sortedDirection = (this.sortedDirection === "asc" ? "desc" : "asc");
+      this.sortedDirection = this.sortedDirection === "asc" ? "desc" : "asc";
     } else {
       this.sortedDirection = "asc";
+      this.sortedColumn = colName;
     }
-    this.sortedColumn = colName;
 
     this.dispatchEvent(new CustomEvent('sortrecords', {
       detail: {
-        sortedColumn: event.target.title,
+        sortedColumn: this.sortedColumn,
         sortedDirection: this.sortedDirection
       }
     }));
