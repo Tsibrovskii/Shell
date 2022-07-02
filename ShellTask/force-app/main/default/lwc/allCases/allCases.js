@@ -10,8 +10,6 @@ export default class AllCases extends LightningElement {
   initialRecords = [];
   typingTimer;
   filter;
-  sortedColumn;
-  sortedDirection = "asc";
   isLoaded = true;
 
   headers = [
@@ -75,56 +73,15 @@ export default class AllCases extends LightningElement {
     this.isLoaded = !this.isLoaded;
   }
 
+  initialProcessRecords = (data) => {
+    this.initialRecords = data.map(record => {
+      return {...record, CreatedDate: record.CreatedDate.slice(0, 10), Owner: record.Owner && record.Owner.Name}
+    });
+    this.records = this.initialRecords;
+  }
+
   renderedCallback() {
     Promise.all([loadScript(this, JSPDF)]);
-  }
-
-  get classCaseNumberAsc() {
-    return this.sortedColumn === 'CaseNumber' && this.sortedDirection === 'asc'? '' : 'displayNone';
-  }
-
-  get classCaseNumberDesc() {
-    return this.sortedColumn === 'CaseNumber' && this.sortedDirection === 'desc'? '' : 'displayNone';
-  }
-
-  get classCaseOwnerAsc() {
-    return this.sortedColumn === 'Owner' && this.sortedDirection === 'asc'? '' : 'displayNone';
-  }
-
-  get classCaseOwnerDesc() {
-    return this.sortedColumn === 'Owner' && this.sortedDirection === 'desc'? '' : 'displayNone';
-  }
-
-  get classStatusAsc() {
-    return this.sortedColumn === 'Status' && this.sortedDirection === 'asc'? '' : 'displayNone';
-  }
-
-  get classStatusDesc() {
-    return this.sortedColumn === 'Status' && this.sortedDirection === 'desc'? '' : 'displayNone';
-  }
-
-  get classCreatedDateAsc() {
-    return this.sortedColumn === 'CreatedDate' && this.sortedDirection === 'asc'? '' : 'displayNone';
-  }
-
-  get classCreatedDateDesc() {
-    return this.sortedColumn === 'CreatedDate' && this.sortedDirection === 'desc'? '' : 'displayNone';
-  }
-
-  get classSkillsAsc() {
-    return this.sortedColumn === 'Skills__c' && this.sortedDirection === 'asc'? '' : 'displayNone';
-  }
-
-  get classSkillsDesc() {
-    return this.sortedColumn === 'Skills__c' && this.sortedDirection === 'desc'? '' : 'displayNone';
-  }
-
-  get classPriorityAsc() {
-    return this.sortedColumn === 'Priority' && this.sortedDirection === 'asc'? '' : 'displayNone';
-  }
-
-  get classPriorityDesc() {
-    return this.sortedColumn === 'Priority' && this.sortedDirection === 'desc'? '' : 'displayNone';
   }
 
   generatePdf = () => {
@@ -134,13 +91,6 @@ export default class AllCases extends LightningElement {
     doc.text("All Cases", 92, 10);
     doc.table(10, 20, this.records, this.headers, {autosize:true});
     doc.save("Cases.pdf");
-  }
-
-  initialProcessRecords = (data) => {
-    this.initialRecords = data.map(record => {
-      return {...record, CreatedDate: record.CreatedDate.slice(0, 10), Owner: record.Owner.Name}
-    });
-    this.records = this.initialRecords;
   }
 
   filterRecords = (event) => {
@@ -166,16 +116,8 @@ export default class AllCases extends LightningElement {
   }
 
   sortRecords = (event) => {
-    let colName = event.target.title;
-    if (this.sortedColumn === colName) {
-      this.sortedDirection = (this.sortedDirection === "asc" ? "desc" : "asc");
-    } else {
-      this.sortedDirection = "asc";
-    }
-
-    let isReverse = this.sortedDirection === "asc" ? 1 : -1;
-
-    this.sortedColumn = colName;
+    const colName = event.detail.sortedColumn;
+    const isReverse = event.detail.sortedDirection === "asc" ? 1 : -1;
 
     this.records.sort((a, b) => {
       a = a[colName] ? a[colName].toLowerCase() : "";
