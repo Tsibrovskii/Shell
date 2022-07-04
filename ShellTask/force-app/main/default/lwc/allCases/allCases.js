@@ -129,6 +129,8 @@ export default class AllCases extends LightningElement {
   }
 
   filterCases = () => {
+    this.template.querySelector('lightning-input[data-name="search"]').value = null;
+    this.search = null;
     this.filteredRecords = this.initialRecords
       .filter(record => {
         return !this.startDate || record.CreatedDate >= this.startDate;
