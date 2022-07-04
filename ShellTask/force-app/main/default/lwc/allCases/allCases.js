@@ -8,11 +8,13 @@ export default class AllCases extends LightningElement {
   records = [];
   filteredRecords = [];
   initialRecords = [];
+
   typingTimer;
-  search;
   isLoaded = true;
   sortColumnName;
   isReverse;
+
+  search;
   startDate;
   endDate;
   status;
@@ -101,36 +103,31 @@ export default class AllCases extends LightningElement {
   }
 
   handleStartDateChange = (event) => {
-    this.startDate = event.target.value;
+    this.startDate = event.detail;
     this.filterCases();
   }
 
   handleEndDateChange = (event) => {
-    this.endDate = event.target.value;
+    this.endDate = event.detail;
     this.filterCases();
   }
 
   handleStatusChange(event) {
-    this.status = event.target.value;
+    this.status = event.detail;
     this.filterCases();
   }
 
   handlePriorityChange(event) {
-    this.priority = event.target.value;
+    this.priority = event.detail;
     this.filterCases();
   }
 
   handleSearchChange = (event) => {
-    this.search = event.target.value && event.target.value.toLowerCase();
-    clearTimeout(this.typingTimer);
-    this.typingTimer = setTimeout(() => {
-      this.processSearch();
-    }, 300);
+    this.search = event.detail;
+    this.processSearch();
   }
 
   filterCases = () => {
-    this.template.querySelector('lightning-input[data-name="search"]').value = null;
-    this.search = null;
     this.filteredRecords = this.initialRecords
       .filter(record => {
         return !this.startDate || record.CreatedDate >= this.startDate;
@@ -177,23 +174,5 @@ export default class AllCases extends LightningElement {
       b = b[this.sortColumnName] ? b[this.sortColumnName].toLowerCase() : "";
       return a > b ? 1 * this.isReverse : -1 * this.isReverse;
     });
-  }
-
-  get statusOptions() {
-    return [
-      {label: "--None--", value: "--None--"},
-      {label: "New", value: "New"},
-      {label: "Working", value: "Working"},
-      {label: "Escalated", value: "Escalated"}
-    ];
-  }
-
-  get priorityOptions() {
-    return [
-      {label: "--None--", value: "--None--"},
-      {label: "High", value: "High"},
-      {label: "Medium", value: "Medium"},
-      {label: "Low", value: "Low"}
-    ];
   }
 }

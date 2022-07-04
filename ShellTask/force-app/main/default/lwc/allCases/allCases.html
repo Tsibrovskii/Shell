@@ -3,38 +3,13 @@
     <div class="headerBackgroundColor slds-align--absolute-center slds-p-around--small slds-text-heading--medium">
       All Cases
     </div>
-    <div class="filterWidth slds-p-left--small">
-        <lightning-input type="search" class="slds-m-bottom--small" label="Search" data-name="search" onchange={handleSearchChange} placeholder="Start typing here">
-        </lightning-input>
-    </div>
-    <div class="slds-grid slds-p-right--small slds-p-bottom--small">
-      <div class="slds-col slds-size--1-of-4 slds-p-left--small">
-        <lightning-input type="date" name="From date" label="From Date" placeholder="Start Date" onchange={handleStartDateChange}></lightning-input>
-      </div>
-      <div class="slds-col slds-size--1-of-4 slds-p-left--small">
-        <lightning-input type="date" name="From date" label="End Date" placeholder="End Date" onchange={handleEndDateChange}></lightning-input>
-      </div>
-      <div class="slds-col slds-size--1-of-4 slds-p-left--small">
-        <lightning-combobox
-          name="Status"
-          label="Status"
-          value={value}
-          placeholder="Select Status"
-          options={statusOptions}
-          onchange={handleStatusChange}>
-        </lightning-combobox>
-      </div>
-      <div class="slds-col slds-size--1-of-4 slds-p-left--small">
-        <lightning-combobox
-          name="Priority"
-          label="Priority"
-          value={value}
-          placeholder="Select Priority"
-          options={priorityOptions}
-          onchange={handlePriorityChange}>
-        </lightning-combobox>
-      </div>
-    </div>
+    <c-filter-cases
+      onstartdatechanged={handleStartDateChange}
+      onenddatechanged={handleEndDateChange}
+      onstatuschanged={handleStatusChange}
+      onprioritychanged={handlePriorityChange}
+      onsearchchanged={handleSearchChange}>
+    </c-filter-cases>
     <div if:false={isLoaded}>
       <lightning-spinner></lightning-spinner>
     </div>
