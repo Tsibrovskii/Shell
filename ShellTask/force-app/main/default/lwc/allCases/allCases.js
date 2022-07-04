@@ -6,13 +6,17 @@ import JSPDF from '@salesforce/resourceUrl/jspdf';
 export default class AllCases extends LightningElement {
   @track
   records = [];
-
+  filteredRecords = [];
   initialRecords = [];
   typingTimer;
-  filter;
+  search;
   isLoaded = true;
   sortColumnName;
   isReverse;
+  startDate;
+  endDate;
+  status;
+  priority;
 
   headers = [
     {
@@ -79,6 +83,7 @@ export default class AllCases extends LightningElement {
     this.initialRecords = data.map(record => {
       return {...record, CreatedDate: record.CreatedDate.slice(0, 10), Owner: record.Owner && record.Owner.Name}
     });
+    this.filteredRecords = this.initialRecords;
     this.records = this.initialRecords;
   }
 
@@ -95,24 +100,62 @@ export default class AllCases extends LightningElement {
     doc.save("Cases.pdf");
   }
 
-  filterRecords = (event) => {
-    this.filter = event.target.value && event.target.value.toLowerCase();
+  handleStartDateChange = (event) => {
+    this.startDate = event.target.value;
+    this.filterCases();
+  }
+
+  handleEndDateChange = (event) => {
+    this.endDate = event.target.value;
+    this.filterCases();
+  }
+
+  handleStatusChange(event) {
+    this.status = event.target.value;
+    this.filterCases();
+  }
+
+  handlePriorityChange(event) {
+    this.priority = event.target.value;
+    this.filterCases();
+  }
+
+  handleSearchChange = (event) => {
+    this.search = event.target.value && event.target.value.toLowerCase();
     clearTimeout(this.typingTimer);
     this.typingTimer = setTimeout(() => {
-      this.processFilter();
+      this.processSearch();
     }, 300);
   }
 
-  processFilter = () => {
-    if (!this.filter && !this.records.length) {
-      this.records = this.initialRecords;
+  filterCases = () => {
+    this.filteredRecords = this.initialRecords
+      .filter(record => {
+        return !this.startDate || record.CreatedDate >= this.startDate;
+      })
+      .filter(record => {
+        return !this.endDate || record.CreatedDate <= this.endDate;
+      })
+      .filter(record => {
+        return !this.status || this.status === "--None--" || record.Status == this.status;
+      })
+      .filter(record => {
+        return !this.priority || this.priority === "--None--" || record.Priority == this.priority;
+      });
+    this.records = this.filteredRecords;
+    this.processSort();
+  }
+
+  processSearch = () => {
+    if (!this.search && !this.records.length) {
+      this.records = this.filteredRecords;
       this.processSort();
       return;
     }
 
-    this.records = this.initialRecords.filter(record => {
+    this.records = this.filteredRecords.filter(record => {
       const value = Object.values(record).find(val => {
-        return val.toLowerCase().includes(this.filter)
+        return val.toLowerCase().includes(this.search)
       });
       return !!value;
     });
@@ -132,5 +175,23 @@ export default class AllCases extends LightningElement {
       b = b[this.sortColumnName] ? b[this.sortColumnName].toLowerCase() : "";
       return a > b ? 1 * this.isReverse : -1 * this.isReverse;
     });
+  }
+
+  get statusOptions() {
+    return [
+      {label: "--None--", value: "--None--"},
+      {label: "New", value: "New"},
+      {label: "Working", value: "Working"},
+      {label: "Escalated", value: "Escalated"}
+    ];
+  }
+
+  get priorityOptions() {
+    return [
+      {label: "--None--", value: "--None--"},
+      {label: "High", value: "High"},
+      {label: "Medium", value: "Medium"},
+      {label: "Low", value: "Low"}
+    ];
   }
 }
