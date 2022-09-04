@@ -1,13 +1,58 @@
 import {LightningElement, wire, track} from 'lwc';
 import getCases from '@salesforce/apex/CaseController.getCases';
+import getLatestAccounts from '@salesforce/apex/CaseController.getAccountList';
 import {loadScript} from 'lightning/platformResourceLoader';
-import JSPDF from '@salesforce/resourceUrl/jspdf';
+import JSPDF from '@salesforce/resourceUrl/jsPdf';
+import {subscribe, createMessageContext} from 'lightning/messageService';
+import SAMPLEMC from "@salesforce/messageChannel/Sample__c";
+import {refreshApex} from "@salesforce/apex";
+import { deleteRecord } from 'lightning/uiRecordApi';
+
+const COLS = [
+  { label: 'Name', fieldName: 'Name', type: 'text' },
+  { label: 'Stage', fieldName: 'Phone', type: 'text' },
+  { label: 'Amount', fieldName: 'Industry', type: 'text' }
+];
 
 export default class AllCases extends LightningElement {
+  cols = COLS;
+  @track selectedRecord;
+  @track accountList = [];
+  @track error;
+  @track wiredAccountList = [];
+  @wire(getLatestAccounts) accList(result) {
+    this.wiredAccountList = result;
+
+    if (result.data) {
+      this.accountList = result.data;
+      this.error = undefined;
+    } else if (result.error) {
+      this.error = result.error;
+      this.accountList = [];
+    }
+  }
+
+  handelSelection(event) {
+    if (event.detail.selectedRows.length > 0) {
+      this.selectedRecord = event.detail.selectedRows[0].Id;
+    }
+  }
+  deleteRecord() {
+    deleteRecord(this.selectedRecord)
+      .then(() => {
+        refreshApex(this.wiredAccountList);
+      })
+      .catch(error => {
+      })
+  }
+
   @track
   records = [];
   filteredRecords = [];
   initialRecords = [];
+
+  context = createMessageContext();
+  subscription = null;
 
   typingTimer;
   isLoaded = true;
@@ -71,12 +116,37 @@ export default class AllCases extends LightningElement {
     }
   ];
 
+  recordsRefresh;
+
+  
+
+  connectedCallback() {
+    this.subscribeMC();
+  }
+
+  subscribeMC() {
+    if (this.subscription) {
+        return;
+    }
+    this.subscription = subscribe(this.context, SAMPLEMC, (message) => {
+      refreshApex(this.wrapperRecords); 
+      console.log('this is records after refresh', this.recordsRefresh);
+    });
+  }
+
+  refr() {
+    refreshApex(this.wiredAccountList);
+    console.log('this is records after refresh', this.wiredAccountList);
+  }
+
   @wire(getCases)
-  allCases({error, data}) {
-    if (data) {
-      this.initialProcessRecords(data);
-    } else if (error) {
-      this.error = error;
+  allCases(result) {
+    this.recordsRefresh = result;
+    if (result.data) {
+      this.recordsRefresh = result.data;
+      this.initialProcessRecords(result.data);
+    } else if (result.error) {
+      this.error = result.error;
     }
     this.isLoaded = !this.isLoaded;
   }

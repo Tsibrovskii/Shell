@@ -1,0 +1,15 @@
+<aura:component implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+	<lightning:messageChannel type="Sample__c"
+            aura:id="sample"/>
+    <lightning:button label="Neutral" title="Neutral action" onclick="{! c.handleClick }"/>
+</aura:component>
+({
+    handleClick : function (cmp, event, helper) {
+        event.preventDefault();
+        let payload = {
+            recordId: 'test'
+        };
+        cmp.find("sample").publish(payload);
+        console.log('here 1');
+    }
+});
