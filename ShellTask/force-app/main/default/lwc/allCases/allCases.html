@@ -10,9 +10,6 @@
       onprioritychanged={handlePriorityChange}
       onsearchchanged={handleSearchChange}>
     </c-filter-cases>
-    <div if:false={isLoaded}>
-      <lightning-spinner></lightning-spinner>
-    </div>
     <div class="slds-scrollable_y">
       <div class="tableHeaderFixed">
         <c-table-header onsortrecords={sortRecords}></c-table-header>
@@ -27,11 +24,4 @@
       Generate PDF
     </button>
   </div>
-  <lightning-card title="Latest Five Accounts">  
-    <lightning-button slot="actions" label="Delete Account" onclick={deleteRecord}></lightning-button>  
-      <lightning-datatable  
-      data={accountList} columns={cols} key-field="Id" 
-      max-row-selection="1" onrowselection={handelSelection} >  
-      </lightning-datatable>  
-  </lightning-card>
 </template>
